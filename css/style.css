@@ -46,6 +46,12 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  html.js .reveal,
+  html.js .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 body {
@@ -151,13 +157,24 @@ p { font-family: var(--sans); }
 section { padding: 5.5rem 0; position: relative; z-index: 2; }
 section:first-of-type { padding-top: 0; }
 
-/* ---------- Scroll fade-in ---------- */
+/* ---------- Scroll Reveal / Fade-in ---------- */
+/* Visible by default (no-JS progressive enhancement) */
+.reveal,
 .fade-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hidden for reveal animation only after JS adds .js to <html> */
+html.js .reveal,
+html.js .fade-in {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(24px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.fade-in.visible {
+
+html.js .reveal.visible,
+html.js .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
 }

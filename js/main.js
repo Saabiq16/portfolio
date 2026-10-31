@@ -369,13 +369,35 @@ function initTypewriter() {
 }
 
 // ============================================================
-// SCROLL FADE-IN
+// SCROLL REVEAL / FADE-IN
 // ============================================================
 
 function initScrollFade() {
-  const items = qAll(".fade-in");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // If prefers-reduced-motion is set, reveal everything immediately
+  if (reducedMotion) {
+    qAll(".reveal, .fade-in").forEach((el) => el.classList.add("visible"));
+    return;
+  }
+
+  // Content is visible by default. Hide elements for reveal animation only after JS adds "js" class to <html>
+  document.documentElement.classList.add("js");
+
+  const items = qAll(".reveal, .fade-in");
   if (!items.length) return;
 
+  // Fallback timer (~1.5s): reveals everything if the observer has not fired
+  setTimeout(() => {
+    items.forEach((el) => el.classList.add("visible"));
+  }, 1500);
+
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((el) => el.classList.add("visible"));
+    return;
+  }
+
+  // Use threshold 0.01 so elements reveal as soon as 1% enters viewport
   const io = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -385,7 +407,7 @@ function initScrollFade() {
         }
       });
     },
-    { threshold: 0.1 }
+    { threshold: 0.01 }
   );
 
   items.forEach((item) => io.observe(item));
@@ -540,7 +562,7 @@ function renderProjects() {
     // Card
     const card = el(
       "article",
-      { class: "project-card fade-in", role: "button", tabindex: "0" },
+      { class: "project-card reveal fade-in", role: "button", tabindex: "0" },
       buildProjectCard(proj)
     );
 
@@ -675,7 +697,7 @@ function renderExperience() {
 
     const entry = el(
       "div",
-      { class: "timeline-entry fade-in" },
+      { class: "timeline-entry reveal fade-in" },
       `<p class="timeline-period mono">${exp.period}</p>
        <h3 class="timeline-role">${exp.role}</h3>
        <p class="timeline-org muted">${exp.org}</p>
@@ -697,7 +719,7 @@ function renderLeadership() {
   LEADERSHIP.forEach((item) => {
     const div = el(
       "div",
-      { class: "leadership-item fade-in" },
+      { class: "leadership-item reveal fade-in" },
       `<div class="leadership-icon" aria-hidden="true">${item.abbr}</div>
        <div>
          <p class="leadership-role">${item.role}</p>
@@ -752,16 +774,21 @@ function initHeroLayout() {
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", () => {
+  // 1. Render all dynamic content first (projects, experience, leadership)
+  renderProjects();
+  renderExperience();
+  renderLeadership();
+
+  // 2. Initialize interactive UI components
   initNav();
   initCursorGlow();
   initHeroCanvas();
   initHeroLayout();
   initTypewriter();
-  initScrollFade();
   initPipeline();
-  renderProjects();
-  renderExperience();
-  renderLeadership();
   initModals();
   initAboutPhoto();
+
+  // 3. Attach observer to every .reveal / .fade-in element, including dynamically added ones
+  initScrollFade();
 });
