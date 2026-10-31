@@ -211,31 +211,46 @@ function initNav() {
 // ============================================================
 
 function initCursorGlow() {
-  // Only on pointer-fine devices (desktop mice)
-  if (!window.matchMedia("(pointer: fine)").matches) return;
+  // Enable it only when (hover: hover) and (pointer: fine) match
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
   const glow = q("#cursor-glow");
   if (!glow) return;
 
-  let mx = -100,
-    my = -100;
-  let animFrame;
+  let mouseX = -500;
+  let mouseY = -500;
+  let currentX = -500;
+  let currentY = -500;
+  let isMoving = false;
 
   document.addEventListener("mousemove", (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    if (!animFrame) {
-      animFrame = requestAnimationFrame(() => {
-        glow.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
-        glow.style.opacity = "1";
-        animFrame = null;
-      });
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    glow.style.opacity = "1";
+
+    if (!isMoving) {
+      isMoving = true;
+      requestAnimationFrame(render);
     }
   });
 
   document.addEventListener("mouseleave", () => {
     glow.style.opacity = "0";
   });
+
+  // Smooth easing with requestAnimationFrame
+  function render() {
+    currentX += (mouseX - currentX) * 0.15;
+    currentY += (mouseY - currentY) * 0.15;
+
+    glow.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+
+    if (Math.abs(mouseX - currentX) > 0.1 || Math.abs(mouseY - currentY) > 0.1) {
+      requestAnimationFrame(render);
+    } else {
+      isMoving = false;
+    }
+  }
 }
 
 // ============================================================
@@ -755,18 +770,20 @@ function initAboutPhoto() {
 // ============================================================
 
 function initHeroLayout() {
-  const img = q("#hero-layout-img");
+  const frame = q("#hero-layout-frame");
   const fallback = q("#hero-layout-fallback");
-  if (!img || !fallback) return;
+  if (!frame || !fallback) return;
 
-  img.addEventListener("error", () => {
-    img.style.display = "none";
-    fallback.style.display = "block";
-  });
-  img.addEventListener("load", () => {
-    img.style.display = "block";
+  // Load assets/hero-layout.png with new Image() and swap it in only if it loads successfully
+  const testImg = new Image();
+  testImg.src = "assets/hero-layout.png";
+  testImg.onload = () => {
+    testImg.alt = "VLSI IC layout view";
+    testImg.className = "hero-layout-photo";
+    testImg.style.display = "block";
     fallback.style.display = "none";
-  });
+    frame.prepend(testImg);
+  };
 }
 
 // ============================================================
