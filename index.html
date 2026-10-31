@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Saabiq U A — Final-year ECE student at College of Engineering Guindy, Anna University, specializing in digital VLSI design, RTL design, and ASIC implementation on SKY130A." />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="Saabiq U A | VLSI and ASIC Design" />
+  <meta property="og:description" content="Final-year ECE student specializing in digital VLSI design, RTL, and ASIC implementation. RISC-V processor core, Tiny Tapeout tapeout, and more." />
+  <meta property="og:url"         content="https://saabiq16.github.io/portfolio/" />
+  <!-- PLACEHOLDER: Replace with a real OG image (1200x630) at assets/og-image.png -->
+  <!-- <meta property="og:image" content="assets/og-image.png" /> -->
+
+  <title>Saabiq U A | VLSI and ASIC Design</title>
+
+  <!-- PLACEHOLDER: Add a favicon at assets/favicon.ico or assets/favicon.svg -->
+  <!-- <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" /> -->
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+  <!-- Custom cursor glow (desktop only, managed by JS) -->
+  <div id="cursor-glow" aria-hidden="true"></div>
+
+  <!-- ========================================================
+       NAV
+       ======================================================== -->
+  <nav id="nav" aria-label="Primary navigation">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Go to top">
+        <span>&lt;</span>Saabiq<span>/&gt;</span>
+      </a>
+
+      <button
+        class="nav-toggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="nav-links"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#featured">Featured</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ========================================================
+       HERO
+       ======================================================== -->
+  <section id="hero">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <div class="container hero-content">
+      <p class="hero-pre mono">// saabiq_ua.portfolio</p>
+
+      <h1 class="hero-name">Saabiq U A</h1>
+
+      <p class="hero-role" aria-label="VLSI and ASIC design | RTL | Computer architecture">
+        <span id="typewriter"></span><span class="typewriter-cursor" aria-hidden="true"></span>
+      </p>
+
+      <p class="hero-sub">
+        Final-year ECE,
+        <span class="highlight">College of Engineering Guindy</span>,
+        Anna University
+      </p>
+
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">
+          <!-- Arrow icon -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          View Projects
+        </a>
+        <!-- PLACEHOLDER: Ensure assets/resume.pdf exists before sharing the link -->
+        <a href="assets/resume.pdf" class="btn btn-outline" download aria-label="Download resume PDF">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- Clock-waveform section divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,36 60,36 60,12 180,12 180,36 300,36 300,12 420,12 420,36 540,36 540,12 660,12 660,36 780,36 780,12 900,12 900,36 1020,36 1020,12 1140,12 1140,36 1200,36"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       ABOUT
+       ======================================================== -->
+  <section id="about" aria-labelledby="about-heading">
+    <div class="container">
+      <p class="section-label">01 / About</p>
+      <h2 class="section-title" id="about-heading">About</h2>
+
+      <div class="about-grid">
+        <!-- Photo — hidden cleanly if assets/photo.jpeg is absent (handled in JS) -->
+        <aside class="about-photo-wrap fade-in" aria-label="Profile photo">
+          <div class="photo-frame">
+            <!-- PLACEHOLDER: Ensure assets/photo.jpeg is present. Rename/update path if needed. -->
+            <img
+              id="about-photo"
+              src="assets/photo.jpeg"
+              alt="Saabiq U A"
+              class="about-photo"
+              loading="lazy"
+              width="220"
+              height="264"
+            />
+          </div>
+        </aside>
+
+        <div class="about-text">
+          <p class="fade-in">
+            Final-year Electronics and Communication Engineering student at
+            College of Engineering Guindy, Anna University, specializing in
+            digital VLSI design. My work covers RTL design in Verilog and
+            SystemVerilog, functional verification, and RTL-to-GDSII
+            implementation using Yosys, OpenLane, and OpenROAD on SKY130A.
+          </p>
+          <p class="fade-in">
+            I have designed a 5-stage pipelined RISC-V processor core,
+            implemented L1 cache replacement policies during an internship with
+            the SHAKTI Processor Group at IIT Madras, and taken digital designs
+            through to GDSII, including a Tiny Tapeout asynchronous FIFO.
+          </p>
+          <p class="fade-in">
+            My interests are computer architecture, processor design, and
+            physical implementation.
+          </p>
+
+          <!-- Skill chips -->
+          <div class="skills-section fade-in" aria-label="Technical skills">
+
+            <div class="skill-group">
+              <p class="skill-group-label">Programming</p>
+              <div class="skill-chips" role="list">
+                <span class="chip" role="listitem">C</span>
+                <span class="chip" role="listitem">C++</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <p class="skill-group-label">HDL and Design</p>
+              <div class="skill-chips" role="list">
+                <span class="chip" role="listitem">Verilog HDL</span>
+                <span class="chip" role="listitem">SystemVerilog</span>
+                <span class="chip" role="listitem">RISC-V Assembly</span>
+                <span class="chip" role="listitem">RTL Design</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <p class="skill-group-label">Verification and Simulation</p>
+              <div class="skill-chips" role="list">
+                <span class="chip" role="listitem">Icarus Verilog</span>
+                <span class="chip" role="listitem">GTKWave</span>
+                <span class="chip" role="listitem">Vivado</span>
+                <span class="chip" role="listitem">SystemVerilog Testbenches</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <p class="skill-group-label">ASIC and Physical Implementation</p>
+              <div class="skill-chips" role="list">
+                <span class="chip" role="listitem">Yosys</span>
+                <span class="chip" role="listitem">OpenLane</span>
+                <span class="chip" role="listitem">OpenROAD</span>
+                <span class="chip" role="listitem">Magic</span>
+                <span class="chip" role="listitem">SKY130A</span>
+              </div>
+            </div>
+
+            <div class="skill-group">
+              <p class="skill-group-label">Tools</p>
+              <div class="skill-chips" role="list">
+                <span class="chip" role="listitem">Linux</span>
+                <span class="chip" role="listitem">Git</span>
+                <span class="chip" role="listitem">GitHub</span>
+                <span class="chip" role="listitem">MATLAB</span>
+                <span class="chip" role="listitem">LTspice</span>
+              </div>
+            </div>
+
+          </div><!-- /skills-section -->
+        </div><!-- /about-text -->
+      </div><!-- /about-grid -->
+    </div>
+  </section>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,12 60,12 60,36 180,36 180,12 300,12 300,36 420,36 420,12 540,12 540,36 660,36 660,12 780,12 780,36 900,36 900,12 1020,12 1020,36 1140,36 1140,12 1200,12"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       FEATURED PROJECT
+       ======================================================== -->
+  <section id="featured" aria-labelledby="featured-heading">
+    <div class="container">
+      <p class="section-label">02 / Featured Project</p>
+      <h2 class="section-title" id="featured-heading">Featured Project</h2>
+
+      <div class="featured-card fade-in">
+        <div class="featured-meta mono">
+          <span>Team project</span>
+          <span>Jul 2026 – Present</span>
+          <span>Role: Design Lead</span>
+        </div>
+
+        <h3 class="featured-title">
+          <a
+            href="https://github.com/Saabiq16/RISC_V_CORE"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="5-Stage Pipelined RV32I Processor Core with Hardware Multiplier — GitHub repository"
+          >
+            5-Stage Pipelined RV32I Processor Core with Hardware Multiplier
+          </a>
+        </h3>
+
+        <p class="featured-body">
+          Designed the RTL architecture, datapath, and control logic of a 32-bit
+          RISC-V processor in SystemVerilog, starting from a single-cycle
+          baseline and extending it to a 5-stage pipeline (IF, ID, EX, MEM,
+          WB). The hardware multiplier, developed by a teammate, is integrated
+          into the pipeline. Wrote SystemVerilog testbenches and verified
+          instruction execution, branching, and memory operations in Vivado
+          simulation. The pipelined core is functionally working with the
+          multiplier integrated.
+        </p>
+
+        <div class="featured-status" role="status" aria-label="Project status">
+          Functional: pipelined core with multiplier integrated
+        </div>
+
+        <!-- Interactive pipeline diagram -->
+        <div class="pipeline-wrap" aria-label="Interactive 5-stage pipeline diagram">
+          <svg id="pipeline-svg" role="img" aria-label="5-stage RISC-V pipeline: IF, ID, EX, MEM, WB"></svg>
+        </div>
+        <p id="pipeline-tooltip" class="pipeline-tooltip" aria-live="polite" aria-atomic="true">
+          Hover a stage to see its function in this core.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,36 60,36 60,12 180,12 180,36 300,36 300,12 420,12 420,36 540,36 540,12 660,12 660,36 780,36 780,12 900,12 900,36 1020,36 1020,12 1140,12 1140,36 1200,36"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       PROJECTS
+       ======================================================== -->
+  <section id="projects" aria-labelledby="projects-heading">
+    <div class="container">
+      <p class="section-label">03 / Projects</p>
+      <h2 class="section-title" id="projects-heading">Projects</h2>
+
+      <!-- Cards are injected here by main.js -->
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- Project modal (shared, content swapped by JS) -->
+  <div
+    id="modal-overlay"
+    class="modal-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <div id="modal-box" class="modal-box">
+      <!-- Content injected by JS -->
+    </div>
+  </div>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,12 60,12 60,36 180,36 180,12 300,12 300,36 420,36 420,12 540,12 540,36 660,36 660,12 780,12 780,36 900,36 900,12 1020,12 1020,36 1140,36 1140,12 1200,12"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       EXPERIENCE
+       ======================================================== -->
+  <section id="experience" aria-labelledby="experience-heading">
+    <div class="container">
+      <p class="section-label">04 / Experience</p>
+      <h2 class="section-title" id="experience-heading">Experience</h2>
+
+      <!-- Timeline entries injected by main.js -->
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,36 60,36 60,12 180,12 180,36 300,36 300,12 420,12 420,36 540,36 540,12 660,12 660,36 780,36 780,12 900,12 900,36 1020,36 1020,12 1140,12 1140,36 1200,36"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       EDUCATION
+       ======================================================== -->
+  <section id="education" aria-labelledby="education-heading">
+    <div class="container">
+      <p class="section-label">05 / Education</p>
+      <h2 class="section-title" id="education-heading">Education and Certifications</h2>
+
+      <div class="edu-grid">
+
+        <!-- Degree -->
+        <div class="edu-card fade-in">
+          <p class="edu-period">Sep 2023 – Present</p>
+          <h3 class="edu-degree">B.E. Electronics and Communication Engineering</h3>
+          <p class="edu-inst">College of Engineering Guindy, Anna University</p>
+          <p class="edu-detail">CGPA</p>
+          <p class="edu-cgpa">8.54</p>
+          <p class="edu-detail" style="margin-top:1rem">Coursework</p>
+          <p class="edu-detail">
+            Digital Electronics &middot; Digital IC Design &middot;
+            Computer Architecture &middot; Verilog HDL &middot;
+            Static Timing Analysis
+          </p>
+          <div class="achievement-pill" aria-label="Achievement: Reliance Foundation Undergraduate Scholarship 2023">
+            &#9733; Reliance Foundation Undergraduate Scholarship, 2023
+          </div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="edu-card fade-in">
+          <p class="edu-period">2025</p>
+          <h3 class="edu-degree">Certifications</h3>
+          <p class="edu-inst">NPTEL</p>
+          <ul class="cert-list" aria-label="NPTEL certifications">
+            <li>Digital IC Design (2025)</li>
+            <li>Embedded Systems Design (2025)</li>
+            <li>VLSI Design Flow: RTL-GDS (2025)</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,12 60,12 60,36 180,36 180,12 300,12 300,36 420,36 420,12 540,12 540,36 660,36 660,12 780,12 780,36 900,36 900,12 1020,12 1020,36 1140,36 1140,12 1200,12"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       LEADERSHIP
+       ======================================================== -->
+  <section id="leadership" aria-labelledby="leadership-heading">
+    <div class="container">
+      <p class="section-label">06 / Leadership</p>
+      <h2 class="section-title" id="leadership-heading">Leadership</h2>
+
+      <!-- Leadership entries injected by main.js -->
+      <div class="leadership-list" id="leadership-list"></div>
+    </div>
+  </section>
+
+  <!-- Clock-waveform divider -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline
+        points="0,36 60,36 60,12 180,12 180,36 300,36 300,12 420,12 420,36 540,36 540,12 660,12 660,36 780,36 780,12 900,12 900,36 1020,36 1020,12 1140,12 1140,36 1200,36"
+        fill="none"
+        stroke="rgba(30,107,255,0.22)"
+        stroke-width="1.5"
+      />
+    </svg>
+  </div>
+
+  <!-- ========================================================
+       CONTACT
+       ======================================================== -->
+  <section id="contact" aria-labelledby="contact-heading">
+    <div class="container">
+      <p class="section-label">07 / Contact</p>
+      <h2 class="section-title" id="contact-heading">Contact</h2>
+
+      <p class="muted fade-in" style="margin-bottom:2rem;font-size:0.95rem">
+        Open to internship and collaboration opportunities in VLSI design,
+        RTL, and ASIC implementation.
+      </p>
+
+      <div class="contact-grid fade-in" role="list">
+
+        <!-- Email -->
+        <a
+          href="mailto:saabiqua16@gmail.com"
+          class="contact-item"
+          aria-label="Send email to saabiqua16@gmail.com"
+          role="listitem"
+        >
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-label">Email</p>
+            <p class="contact-value">saabiqua16@gmail.com</p>
+          </div>
+        </a>
+
+        <!-- LinkedIn -->
+        <a
+          href="https://www.linkedin.com/in/saabiq-ua"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-item"
+          aria-label="LinkedIn profile (opens in new tab)"
+          role="listitem"
+        >
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-label">LinkedIn</p>
+            <p class="contact-value">saabiq-ua</p>
+          </div>
+        </a>
+
+        <!-- GitHub -->
+        <a
+          href="https://github.com/Saabiq16"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-item"
+          aria-label="GitHub profile (opens in new tab)"
+          role="listitem"
+        >
+          <div class="contact-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+          </div>
+          <div>
+            <p class="contact-label">GitHub</p>
+            <p class="contact-value">Saabiq16</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       FOOTER
+       ======================================================== -->
+  <footer>
+    <div class="container">
+      <p class="footer-text">
+        Designed and built by <span>Saabiq</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
