@@ -17,7 +17,10 @@ const PROJECTS = [
     // PLACEHOLDER: Replace null with a relative path to a screenshot
     // e.g. "assets/booth-multiplier-layout.png"
     image: null,
-    imageLabel: "REPLACE: waveform / layout screenshot",
+    imageLabel: "Layout / waveform screenshot to be added",
+    summary:
+      "8-bit signed Booth multiplier with 16-bit CLA, taken from RTL to GDSII on SKY130A at 70% core utilisation.",
+    highlights: ["6.76 ns post-route delay", "0 DRC / LVS errors"],
     excerpt:
       "8-bit signed multiplier using radix-4 Modified Booth encoding, carry-save partial-product reduction, and a 16-bit carry lookahead adder. Implemented in Verilog with RTL synthesis, timing analysis, and full RTL-to-GDSII flow.",
     detail: [
@@ -35,7 +38,10 @@ const PROJECTS = [
     // PLACEHOLDER: Replace null with a relative path to a screenshot
     // e.g. "assets/async-fifo-gdsii.png"
     image: null,
-    imageLabel: "REPLACE: GDSII view or waveform screenshot",
+    imageLabel: "Layout / waveform screenshot to be added",
+    summary:
+      "Parameterized async FIFO with Gray-code CDC, verified end-to-end and submitted to the Tiny Tapeout Sky25A Shuttle.",
+    highlights: ["Tiny Tapeout Sky25A", "Gray-code CDC"],
     excerpt:
       "Parameterized asynchronous FIFO with Gray-coded read/write pointers and two-stage synchronizers for clock-domain crossing, submitted to the Tiny Tapeout Sky25A Shuttle as part of the CEG Fabless Initiative.",
     detail: [
@@ -540,7 +546,10 @@ function renderProjects() {
 
     card.addEventListener("click", () => openModal(proj));
     card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") openModal(proj);
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openModal(proj);
+      }
     });
 
     grid.append(card);
@@ -548,20 +557,55 @@ function renderProjects() {
 }
 
 function buildProjectCard(proj) {
-  // PLACEHOLDER: if proj.image is set, use an <img> tag; otherwise show grid placeholder
-  const imgSlot = `<div class="project-img-slot" data-label="${proj.imageLabel}" aria-label="${proj.imageLabel}"></div>`;
+  // Image area: use proj.image if present, otherwise render styled placeholder
+  let imgArea;
+  if (proj.image) {
+    // Real image — lazy-loaded
+    imgArea = `
+      <div class="project-img-slot project-img-slot--photo">
+        <img
+          src="${proj.image}"
+          alt="${proj.title} screenshot"
+          class="project-img"
+          loading="lazy"
+        />
+      </div>`;
+  } else {
+    // Styled placeholder: dark panel + faint grid + initials + label
+    // Derive initials from the project id (first letters of each word, max 3)
+    const initials = proj.title
+      .split(" ")
+      .filter((w) => /^[A-Z0-9]/.test(w))
+      .slice(0, 3)
+      .map((w) => w[0])
+      .join("");
+    imgArea = `
+      <div class="project-img-slot" role="img" aria-label="${proj.imageLabel}">
+        <span class="proj-initials" aria-hidden="true">${initials}</span>
+        <span class="proj-placeholder-label" aria-hidden="true">Layout / waveform screenshot to be added</span>
+      </div>`;
+  }
+
+  const highlights = (proj.highlights || [])
+    .map((h) => `<span class="highlight-chip">${h}</span>`)
+    .join("");
 
   const tags = proj.tags
     .map((t) => `<span class="tag">${t}</span>`)
     .join("");
 
   return `
-    ${imgSlot}
+    ${imgArea}
     <div class="project-body">
-      <p class="project-meta mono">${proj.period}${proj.shuttle ? " · " + proj.shuttle : ""}</p>
+      <p class="project-meta mono">${proj.period}${proj.shuttle ? " &middot; " + proj.shuttle : ""}</p>
       <h3 class="project-title">${proj.title}</h3>
-      <p class="project-excerpt">${proj.excerpt}</p>
+      <p class="project-summary">${proj.summary}</p>
+      ${highlights ? `<div class="highlight-chips">${highlights}</div>` : ""}
       <div class="tags">${tags}</div>
+      <span class="project-view-link" aria-hidden="true">
+        View details
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
     </div>
   `;
 }
@@ -685,6 +729,25 @@ function initAboutPhoto() {
 }
 
 // ============================================================
+// HERO LAYOUT IMAGE / SVG FALLBACK
+// ============================================================
+
+function initHeroLayout() {
+  const img = q("#hero-layout-img");
+  const fallback = q("#hero-layout-fallback");
+  if (!img || !fallback) return;
+
+  img.addEventListener("error", () => {
+    img.style.display = "none";
+    fallback.style.display = "block";
+  });
+  img.addEventListener("load", () => {
+    img.style.display = "block";
+    fallback.style.display = "none";
+  });
+}
+
+// ============================================================
 // BOOT
 // ============================================================
 
@@ -692,6 +755,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initCursorGlow();
   initHeroCanvas();
+  initHeroLayout();
   initTypewriter();
   initScrollFade();
   initPipeline();
