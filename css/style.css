@@ -1513,61 +1513,7 @@ footer {
   margin: 0.9rem 0 0.7rem;
 }
 
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  padding: 0.7rem 1.2rem;
-  border-radius: 9999px;
-  color: var(--text);
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.03);
-  transition: transform var(--transition), border-color var(--transition),
-              box-shadow var(--transition), color var(--transition);
-}
-.btn-ghost:hover {
-  transform: translateY(-2px);
-  border-color: var(--blue);
-  color: #fff;
-  box-shadow: 0 0 18px var(--blue-glow);
-}
-
-.hero-visual-slot {
-  flex-direction: column;
-  gap: 1rem;
-}
 .hero-layout-frame { max-width: 500px; }
-
-.hero-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--blue-soft);
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--border);
-  border-radius: 9999px;
-  background: rgba(10, 10, 10, 0.5);
-}
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--blue);
-  box-shadow: 0 0 8px var(--blue);
-  animation: statusPulse 2.4s ease-in-out infinite;
-}
-@keyframes statusPulse {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.35; }
-}
 
 /* Bento skills grid */
 .bento {
@@ -1595,14 +1541,6 @@ footer {
   border-color: rgba(30, 107, 255, 0.55);
   box-shadow: 0 10px 30px -12px rgba(30, 107, 255, 0.4);
 }
-.bento-index {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  margin-bottom: 0.6rem;
-  transition: color var(--transition);
-}
-.bento-card:hover .bento-index { color: var(--hot); }
 .bento-title {
   font-family: var(--font-display);
   font-size: 1.05rem;
@@ -1745,7 +1683,6 @@ footer {
 .back-to-top:hover { border-color: var(--blue); box-shadow: 0 0 16px var(--blue-glow); }
 
 @media (max-width: 480px) {
-  .btn-ghost { justify-content: center; }
   .hero-desc { font-size: 0.95rem; }
   .back-to-top { right: 0.9rem; bottom: 0.9rem; }
 }
