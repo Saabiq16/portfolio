@@ -1498,3 +1498,254 @@ footer {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+
+/* ============================================================
+   STAGE 1 ADDITIONS: hero buttons, bento skills, lightbox, back to top
+   ============================================================ */
+
+/* Hero: description, ghost buttons, status label */
+.hero-desc {
+  color: var(--muted);
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0.9rem 0 0.7rem;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.7rem 1.2rem;
+  border-radius: 9999px;
+  color: var(--text);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+  transition: transform var(--transition), border-color var(--transition),
+              box-shadow var(--transition), color var(--transition);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 18px var(--blue-glow);
+}
+
+.hero-visual-slot {
+  flex-direction: column;
+  gap: 1rem;
+}
+.hero-layout-frame { max-width: 500px; }
+
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--blue-soft);
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: rgba(10, 10, 10, 0.5);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 8px var(--blue);
+  animation: statusPulse 2.4s ease-in-out infinite;
+}
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* Bento skills grid */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem;
+}
+.bento-hdl   { grid-column: 1 / 8; }
+.bento-eda   { grid-column: 8 / 13; grid-row: 1 / 3; display: flex; flex-direction: column; }
+.bento-arch  { grid-column: 1 / 8; }
+.bento-verif { grid-column: 1 / 7; }
+.bento-prog  { grid-column: 7 / 10; }
+.bento-tools { grid-column: 10 / 13; }
+
+.bento-card {
+  position: relative;
+  padding: 1.4rem 1.5rem 1.5rem;
+  border-radius: 14px;
+  background: rgba(18, 22, 34, 0.72);
+  border: 1px solid rgba(30, 107, 255, 0.18);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.bento-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(30, 107, 255, 0.55);
+  box-shadow: 0 10px 30px -12px rgba(30, 107, 255, 0.4);
+}
+.bento-index {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+  transition: color var(--transition);
+}
+.bento-card:hover .bento-index { color: var(--hot); }
+.bento-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+.bento-eda .bento-title { font-size: 1.25rem; }
+.bento-note {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--blue-soft);
+}
+
+@media (max-width: 900px) {
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .bento-hdl, .bento-eda, .bento-arch, .bento-verif, .bento-prog, .bento-tools {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .bento-eda { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .bento { grid-template-columns: 1fr; }
+  .bento-eda { grid-column: auto; }
+}
+
+/* Project image zoom cursor + modal image */
+.project-img-slot--photo .project-img { cursor: zoom-in; }
+
+.modal-img-btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--bg-2);
+  cursor: zoom-in;
+}
+.modal-img-btn img {
+  display: block;
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+}
+.modal-img-btn::after {
+  content: "ENLARGE";
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  padding: 0.25rem 0.55rem;
+  border-radius: 9999px;
+  color: var(--text);
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid var(--border);
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(5, 6, 10, 0.94);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s;
+}
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox-figure { margin: 0; text-align: center; max-width: 100%; }
+.lightbox-figure img {
+  display: block;
+  max-width: min(94vw, 1200px);
+  max-height: 80vh;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+}
+.lightbox-figure figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+.lightbox-close:hover { border-color: var(--hot); background: var(--hot-dim); }
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s,
+              border-color var(--transition), box-shadow var(--transition);
+}
+.back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { border-color: var(--blue); box-shadow: 0 0 16px var(--blue-glow); }
+
+@media (max-width: 480px) {
+  .btn-ghost { justify-content: center; }
+  .hero-desc { font-size: 0.95rem; }
+  .back-to-top { right: 0.9rem; bottom: 0.9rem; }
+}

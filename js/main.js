@@ -584,6 +584,10 @@ function renderProjects() {
     // If the screenshot file is missing, fall back to the placeholder instead of a broken image
     const photo = card.querySelector("img.project-img");
     if (photo) {
+      photo.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openLightbox(proj.image, proj.title + " screenshot", card);
+      });
       photo.addEventListener("error", () => {
         const slot = photo.closest(".project-img-slot");
         if (slot) slot.outerHTML = placeholderHTML(proj);
@@ -672,12 +676,18 @@ function openModal(proj) {
   const detailHTML = proj.detail
     .map((d) => `<p>${d}</p>`)
     .join("");
+  const imgBtn = proj.image
+    ? `<button type="button" class="modal-img-btn" aria-label="Enlarge image: ${proj.title}">
+         <img src="${proj.image}" alt="${proj.title} screenshot" loading="lazy" />
+       </button>`
+    : "";
   const tags = proj.tags
     .map((t) => `<span class="tag">${t}</span>`)
     .join("");
 
   modalBox.innerHTML = `
     <button class="modal-close" aria-label="Close modal">&times;</button>
+    ${imgBtn}
     <p class="modal-meta">${proj.period}${proj.shuttle ? " · " + proj.shuttle : ""}</p>
     <h3 class="modal-title">${proj.title}</h3>
     <div class="tags" style="margin-bottom:1.2rem">${tags}</div>
@@ -689,6 +699,15 @@ function openModal(proj) {
   `;
 
   q(".modal-close", modalBox).addEventListener("click", closeModal);
+
+  const modalImgBtn = q(".modal-img-btn", modalBox);
+  if (modalImgBtn) {
+    modalImgBtn.addEventListener("click", () =>
+      openLightbox(proj.image, proj.title + " screenshot", modalImgBtn)
+    );
+    q("img", modalImgBtn)?.addEventListener("error", () => modalImgBtn.remove());
+  }
+
   overlay.classList.add("open");
   document.body.style.overflow = "hidden";
   q(".modal-close", modalBox).focus();
@@ -705,7 +724,9 @@ function initModals() {
   });
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
+    if (e.key !== "Escape") return;
+    if (isLightboxOpen()) closeLightbox();
+    else closeModal();
   });
 }
 
@@ -799,6 +820,99 @@ function initHeroLayout() {
 }
 
 // ============================================================
+// LIGHTBOX: enlarged project images
+// ============================================================
+
+let lightboxTrigger = null;
+
+function isLightboxOpen() {
+  const box = q("#lightbox");
+  return !!box && box.classList.contains("open");
+}
+
+function openLightbox(src, alt, trigger) {
+  const box = q("#lightbox");
+  const img = q("#lightbox-img");
+  const cap = q("#lightbox-caption");
+  if (!box || !img || !src) return;
+
+  lightboxTrigger = trigger || document.activeElement;
+  img.src = src;
+  img.alt = alt || "";
+  if (cap) cap.textContent = alt || "";
+  box.classList.add("open");
+  box.setAttribute("aria-hidden", "false");
+  q(".lightbox-close", box)?.focus();
+}
+
+function closeLightbox() {
+  const box = q("#lightbox");
+  if (!box || !box.classList.contains("open")) return;
+  box.classList.remove("open");
+  box.setAttribute("aria-hidden", "true");
+
+  // Return focus to whatever opened the lightbox
+  const trigger = lightboxTrigger;
+  lightboxTrigger = null;
+  if (trigger && document.contains(trigger) && typeof trigger.focus === "function") {
+    trigger.focus();
+  }
+}
+
+function initLightbox() {
+  const box = q("#lightbox");
+  if (!box) return;
+
+  box.addEventListener("click", (e) => {
+    if (e.target === box || e.target.closest(".lightbox-close")) closeLightbox();
+  });
+
+  // Keep keyboard focus inside the lightbox (the close button is its only control)
+  box.addEventListener("keydown", (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      q(".lightbox-close", box)?.focus();
+    }
+  });
+}
+
+// ============================================================
+// BACK TO TOP
+// ============================================================
+
+function initBackToTop() {
+  const btn = q("#back-to-top");
+  if (!btn) return;
+
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let ticking = false;
+
+  function update() {
+    btn.classList.toggle("show", window.scrollY > 600);
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true }
+  );
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+    // The button hides once we reach the top, so move focus somewhere visible
+    q(".nav-logo")?.focus({ preventScroll: true });
+  });
+
+  update();
+}
+
+// ============================================================
 // BOOT
 // ============================================================
 
@@ -816,6 +930,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initTypewriter();
   initPipeline();
   initModals();
+  initLightbox();
+  initBackToTop();
   initAboutPhoto();
 
   // 3. Attach observer to every .reveal / .fade-in element, including dynamically added ones
