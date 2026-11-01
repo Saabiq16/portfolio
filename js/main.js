@@ -807,16 +807,7 @@ function initHeroLayout() {
   const fallback = q("#hero-layout-fallback");
   if (!frame || !fallback) return;
 
-  // Load assets/hero-layout.png with new Image() and swap it in only if it loads successfully
-  const testImg = new Image();
-  testImg.src = "assets/hero-layout.png";
-  testImg.onload = () => {
-    testImg.alt = "VLSI IC layout view";
-    testImg.className = "hero-layout-photo";
-    testImg.style.display = "block";
-    fallback.style.display = "none";
-    frame.prepend(testImg);
-  };
+ 
 }
 
 // ============================================================

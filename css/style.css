@@ -1703,7 +1703,7 @@ footer {
 
 @media (max-width: 768px) {
   #ambient-system-canvas {
-    opacity: 0.20;
+    opacity: 1;
   }
 }
 
