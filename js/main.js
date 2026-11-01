@@ -15,12 +15,12 @@ const PROJECTS = [
     period: "Jan 2026 – Apr 2026",
     tags: ["Verilog", "Vivado", "Yosys", "OpenLane", "SKY130A"],
     // PLACEHOLDER: Replace null with a relative path to a screenshot
-    // e.g. "assets/booth-multiplier-layout.png"
-    image: null,
+    // Final GDS layout from the repo (docs_new/final_gds.png), saved as assets/booth-gds.png
+    image: "assets/booth-gds.png",
     imageLabel: "Layout / waveform screenshot to be added",
     summary:
       "8-bit signed Booth multiplier with 16-bit CLA, taken from RTL to GDSII on SKY130A at 70% core utilisation.",
-    highlights: ["6.76 ns post-route delay", "0 DRC / LVS errors"],
+    highlights: ["6.76 ns post-route delay", "70% core utilization", "0 DRC / LVS errors"],
     excerpt:
       "8-bit signed multiplier using radix-4 Modified Booth encoding, carry-save partial-product reduction, and a 16-bit carry lookahead adder. Implemented in Verilog with RTL synthesis, timing analysis, and full RTL-to-GDSII flow.",
     detail: [
@@ -36,12 +36,12 @@ const PROJECTS = [
     period: "Jan 2025 – Sep 2025",
     tags: ["Verilog", "CDC", "OpenLane", "SKY130A"],
     // PLACEHOLDER: Replace null with a relative path to a screenshot
-    // e.g. "assets/async-fifo-gdsii.png"
-    image: null,
+    // Final GDS layout from the repo (docs/gds_layout.png), saved as assets/async-fifo-gds.png
+    image: "assets/async-fifo-gds.png",
     imageLabel: "Layout / waveform screenshot to be added",
     summary:
       "Parameterized async FIFO with Gray-code CDC, verified end-to-end and submitted to the Tiny Tapeout Sky25A Shuttle.",
-    highlights: ["Tiny Tapeout Sky25A", "Gray-code CDC"],
+    highlights: ["Tiny Tapeout Sky25A", "2.65 ns critical path", "0 DRC / LVS / antenna violations"],
     excerpt:
       "Parameterized asynchronous FIFO with Gray-coded read/write pointers and two-stage synchronizers for clock-domain crossing, submitted to the Tiny Tapeout Sky25A Shuttle as part of the CEG Fabless Initiative.",
     detail: [
@@ -581,6 +581,15 @@ function renderProjects() {
       buildProjectCard(proj)
     );
 
+    // If the screenshot file is missing, fall back to the placeholder instead of a broken image
+    const photo = card.querySelector("img.project-img");
+    if (photo) {
+      photo.addEventListener("error", () => {
+        const slot = photo.closest(".project-img-slot");
+        if (slot) slot.outerHTML = placeholderHTML(proj);
+      });
+    }
+
     card.addEventListener("click", () => openModal(proj));
     card.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
@@ -591,6 +600,21 @@ function renderProjects() {
 
     grid.append(card);
   });
+}
+
+function placeholderHTML(proj) {
+  // Styled placeholder: dark panel + faint grid + initials + label
+  const initials = proj.title
+    .split(" ")
+    .filter((w) => /^[A-Z0-9]/.test(w))
+    .slice(0, 3)
+    .map((w) => w[0])
+    .join("");
+  return `
+      <div class="project-img-slot" role="img" aria-label="${proj.imageLabel}">
+        <span class="proj-initials" aria-hidden="true">${initials}</span>
+        <span class="proj-placeholder-label" aria-hidden="true">Layout / waveform screenshot to be added</span>
+      </div>`;
 }
 
 function buildProjectCard(proj) {
@@ -608,19 +632,7 @@ function buildProjectCard(proj) {
         />
       </div>`;
   } else {
-    // Styled placeholder: dark panel + faint grid + initials + label
-    // Derive initials from the project id (first letters of each word, max 3)
-    const initials = proj.title
-      .split(" ")
-      .filter((w) => /^[A-Z0-9]/.test(w))
-      .slice(0, 3)
-      .map((w) => w[0])
-      .join("");
-    imgArea = `
-      <div class="project-img-slot" role="img" aria-label="${proj.imageLabel}">
-        <span class="proj-initials" aria-hidden="true">${initials}</span>
-        <span class="proj-placeholder-label" aria-hidden="true">Layout / waveform screenshot to be added</span>
-      </div>`;
+    imgArea = placeholderHTML(proj);
   }
 
   const highlights = (proj.highlights || [])
